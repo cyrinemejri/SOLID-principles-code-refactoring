@@ -1,0 +1,37 @@
+@startuml
+
+interface Resource {
+  +allocate(): int
+  +free(resourceId: int): void
+}
+
+class TimeSlotResource {
+  -findFreeTimeSlot(): int
+  -markTimeSlotBusy(resourceId: int): void
+  -markTimeSlotFree(resourceId: int): void
+  +allocate(): int
+  +free(resourceId: int): void
+}
+
+class SpaceSlotResource {
+  -findFreeSpaceSlot(): int
+  -markSpaceSlotBusy(resourceId: int): void
+  -markSpaceSlotFree(resourceId: int): void
+  +allocate(): int
+  +free(resourceId: int): void
+}
+
+class ResourceAllocator {
+  +allocate(resource: Resource): int
+  +free(resource: Resource, resourceId: int): void
+}
+
+Resource <|.. TimeSlotResource
+Resource <|.. SpaceSlotResource
+ResourceAllocator --> Resource : utilise
+
+skinparam classAttributeIconSize 0
+skinparam classFontColor #000000
+skinparam classBackgroundColor #FFFFFF
+
+@enduml

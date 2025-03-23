@@ -1,0 +1,33 @@
+@startuml
+class Duck {
+    +quack()
+    +swim()
+}
+
+abstract class Duck
+
+class RealDuck {
+    +quack()
+    +swim()
+}
+
+class ElectronicDuck {
+    -isOn: boolean
+    +turnOn()
+    +turnOff()
+    +quack()
+    +swim()
+}
+
+class Pool {
+    +run()
+    -quack(Duck...)
+    -swim(Duck...)
+    +main(String[] args)
+}
+
+Duck <|-- RealDuck
+Duck <|-- ElectronicDuck
+
+Pool ..> Duck : uses
+@enduml

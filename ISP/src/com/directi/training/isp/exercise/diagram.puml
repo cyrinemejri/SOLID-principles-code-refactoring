@@ -1,0 +1,63 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface Door {
+    + void lock()
+    + void unlock()
+    + void open()
+    + void close()
+    + void timeOutCallback()
+    + void proximityCallback()
+}
+
+class SensingDoor {
+    - boolean _locked
+    - boolean _opened
+    + SensingDoor(Sensor sensor)
+    + void lock()
+    + void unlock()
+    + void open()
+    + void close()
+    + void proximityCallback()
+    + void timeOutCallback() <<NotImplemented>>
+}
+
+class TimedDoor {
+    - boolean _locked
+    - boolean _opened
+    + TimedDoor(Timer timer)
+    + void lock()
+    + void unlock()
+    + void open()
+    + void close()
+    + void timeOutCallback()
+    + void proximityCallback() <<NotImplemented>>
+}
+
+class Sensor {
+    + void register(Door door)
+    - boolean isPersonClose()
+}
+
+class Timer {
+    + void register(long timeOut, Door door)
+}
+
+' Relations
+Door <|.. SensingDoor
+Door <|.. TimedDoor
+
+SensingDoor --> Sensor : "1" o-> "1"
+TimedDoor --> Timer : "1" o-> "1"
+
+Sensor --> Door : « uses » > 
+Timer --> Door : « uses » > 
+
+note left of SensingDoor::timeOutCallback
+    Throws NotImplementedException
+end note
+
+note left of TimedDoor::proximityCallback
+    Throws NotImplementedException
+end note
+@enduml

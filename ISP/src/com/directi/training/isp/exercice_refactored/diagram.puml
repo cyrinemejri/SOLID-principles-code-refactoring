@@ -1,0 +1,53 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+abstract class BasicDoor {
+    #_locked: boolean
+    #_opened: boolean
+    +lock()
+    +unlock()
+    +open()
+    +close()
+}
+
+interface ProximityCallback {
+    +proximityCallback()
+}
+
+interface TimerCallback {
+    +timeOutCallback()
+}
+
+class SensingDoor {
+    +lock()
+    +unlock()
+    +open()
+    +close()
+    +proximityCallback()
+}
+
+class TimedDoor {
+    +lock()
+    +unlock()
+    +open()
+    +close()
+    +timeOutCallback()
+}
+
+class Sensor {
+    +register(callback: ProximityCallback)
+    -isPersonClose(): boolean
+}
+
+class Timer {
+    +register(timeout: long, callback: TimerCallback)
+}
+
+BasicDoor <|-- SensingDoor
+BasicDoor <|-- TimedDoor
+ProximityCallback <|.. SensingDoor
+TimerCallback <|.. TimedDoor
+
+Sensor --> ProximityCallback : utilise
+Timer --> TimerCallback : utilise
+@enduml

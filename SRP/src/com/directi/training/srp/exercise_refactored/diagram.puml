@@ -1,0 +1,50 @@
+@startuml
+
+package "com.directi.training.srp.exercise_refactored.model" {
+    class Car {
+        - String id
+        - String model
+        - String brand
+        + getId(): String
+        + getModel(): String
+        + getBrand(): String
+    }
+}
+
+package "com.directi.training.srp.exercise_refactored.repository" {
+    class CarRepository {
+        - List<Car> carsDb
+        + findAll(): List<Car>
+        + findById(carId: String): Car
+    }
+}
+
+package "com.directi.training.srp.exercise_refactored.services" {
+    class CarNameFormatter {
+        - CarRepository carRepository
+        + getCarNames(): String
+    }
+
+    class CarRecommender {
+        - CarRepository carRepository
+        + getBestCar(): Car
+        - compareCars(car1: Car, car2: Car): boolean
+    }
+}
+
+package "com.directi.training.srp.exercise_refactored.manager" {
+    class CarManager {
+        - CarNameFormatter carNameFormatter
+        - CarRecommender carRecommender
+        + getCarNames(): String
+        + getBestCar(): Car
+    }
+}
+
+CarManager --> CarNameFormatter
+CarManager --> CarRecommender
+CarNameFormatter --> CarRepository
+CarRecommender --> CarRepository
+CarRepository --> Car
+
+@enduml

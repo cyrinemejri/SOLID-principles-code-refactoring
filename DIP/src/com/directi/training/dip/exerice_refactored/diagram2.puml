@@ -1,0 +1,74 @@
+@startuml
+
+package com.directi.training.dip.exerice_refactored {
+
+    interface Database {
+        +int write(inputString: String): int
+    }
+
+    abstract class EncodeWithNetAndDbAbs {
+        -String _netProtocol
+        -String _netHost
+        -String _netFile
+        -Database db
+        +encodeBasedOnNetworkAndDatabase() : void
+        +String getNetProtocol() : String
+        +String getNetHost() : String
+        +String getNetFile() : String
+        +Database getDb() : Database
+    }
+
+    abstract class EncodingWithFileAbs {
+        -String _fileDirInput
+        -String _fileDirOutput
+        +encodeWithFiles() : void
+        +String getFileDirInput() : String
+        +String getFileDirOutput() : String
+    }
+
+    interface EncodingModule {
+        +encodeWithFiles() : void
+        +encodeBasedOnNetworkAndDatabase() : void
+    }
+
+    class EncodingFileWithReverse {
+        +encodeWithFiles() : void
+    }
+
+    class EncodingWithFileBase64 {
+        +encodeWithFiles() : void
+    }
+
+    class EncodingModuleBAse64 {
+        -EncodingWithFileBase64 fileEncoderBase64
+        -Database dbBase64
+        -EncodeWithNetAndDbAbs netAndDbAbsEncoder
+        +encodeWithFiles() : void
+        +encodeBasedOnNetworkAndDatabase() : void
+    }
+
+    class EncodingModuleClient {
+        +main(args: String[]) : void
+    }
+
+    class EncodingWithNetAndDb1 {
+        +encodeBasedOnNetworkAndDatabase() : void
+    }
+
+    class MyDatabase1 {
+        +write(inputString: String) : int
+    }
+
+    EncodingFileWithReverse -|> EncodingWithFileAbs
+    EncodingWithFileBase64 -|> EncodingWithFileAbs
+    EncodingModuleBAse64 -|> EncodingModule
+    EncodingModuleBAse64 --> EncodeWithNetAndDbAbs
+    EncodingModuleBAse64 --> EncodingWithFileAbs
+    EncodingModuleClient --> EncodingModule
+    EncodingWithNetAndDb1 -|> EncodeWithNetAndDbAbs
+    MyDatabase1 -|> Database
+    EncodingWithNetAndDb1 --> Database
+
+}
+
+@enduml
